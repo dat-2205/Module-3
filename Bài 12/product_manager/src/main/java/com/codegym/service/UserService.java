@@ -51,6 +51,14 @@ public class UserService implements IUserService{
 
     @Override
     public User findById(int id) {
-        return userDAO.selectUser(id);
+        return userDAO.getUserByIdStore(id);
+    }
+
+    public List<User> getUserOffset(int offset) {
+        return userDAO.selectUserByOffset(offset);
+    }
+
+    public int countRecord() {
+        return userDAO.countRecord();
     }
 }

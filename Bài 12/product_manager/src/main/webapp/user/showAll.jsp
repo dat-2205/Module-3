@@ -95,6 +95,12 @@
     </div>
     <div class="col-10">
         <h2 class="text-uppercase text-center mb-5">User list</h2>
+        <div class="row">
+            <form action="/users" method="get">
+                <input type="number" name="search" value="">
+                <button type="submit">Search</button>
+            </form>
+        </div>
         <table class="table table-success table-striped">
             <thead>
             <tr>
@@ -120,7 +126,30 @@
             </tbody>
         </table>
         <a href="/users?action=create" class="btn btn-primary">Add new</a>
+        <div>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item ${pre}">
+                        <a class="page-link" href="users?action=page&offset=${offset2-3}">Previous</a>
+                    </li>
+                    <c:forEach begin="1" end="${totalPage}" step="1" var="i">
+                        <c:choose>
+                            <c:when test="${offset2==((i-1)*3)}">
+                                <li class="page-item active"><a class="page-link " href="users?action=page&offset=${3*(i-1)}">${i}</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="users?action=page&offset=${3*(i-1)}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <li class="page-item ${next}">
+                        <a class="page-link" href="users?action=page&offset=${offset2+3}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>

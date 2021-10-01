@@ -1,5 +1,7 @@
 package com.codegym.service;
 
+import com.codegym.model.User;
+
 import java.util.List;
 
 public interface IGenericService<T> {
@@ -12,4 +14,5 @@ public interface IGenericService<T> {
     boolean delete(int id);
 
     T findById(int id);
+
 }

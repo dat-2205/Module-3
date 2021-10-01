@@ -13,4 +13,12 @@ public interface IGenericDAO<T> {
     public boolean deleteUser(int id) throws SQLException;
 
     public boolean updateUser(T T) throws SQLException;
+
+    T getUserByIdStore(int id);
+
+    void insertUserStore(T user) throws SQLException;
+
+    List<T> selectUserByOffset(int offset);
+
+    int countRecord();
 }

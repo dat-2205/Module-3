@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "UserServlet", value = "/users")
@@ -31,10 +32,46 @@ public class UserServlet extends HttpServlet {
                 deleteUser(request,response);
                 break;
             }
-            default: {
-                showAllUser(request,response);
+            case "page": {
+                showPage(request,response);
                 break;
             }
+            default: {
+                showPage(request,response);
+                break;
+            }
+        }
+    }
+    private void showPage(HttpServletRequest request, HttpServletResponse response) {
+        int countRecord = userService.countRecord();
+        int totalPage = countRecord/3 + 1;
+        request.setAttribute("totalPage",totalPage);
+        String offset = request.getParameter("offset");
+        if (offset==null) {
+            offset = "0";
+        }
+        int offset2 = Integer.parseInt(offset);
+        String pre = "";
+        String next = "";
+        if(offset2==0) {
+            pre = "disabled";
+        }else if(offset2 == (totalPage-1)*3) {
+            next = "disabled";
+        }
+        request.setAttribute("pre",pre);
+        request.setAttribute("" +
+                "next", next);
+
+        String active = "active";
+        request.setAttribute("active",active);
+        request.setAttribute("offset2",offset2);
+        List<User> users = userService.getUserOffset(offset2);
+        request.setAttribute("users",users);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/showAll.jsp");
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -62,7 +99,16 @@ public class UserServlet extends HttpServlet {
     }
 
     private void showAllUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<User> users = userService.getAll();
+        String getID = request.getParameter("search");
+        List<User> users = null;
+        if(getID!=null && !getID.equals("")){
+            int id = Integer.parseInt(getID);
+            users = new ArrayList<>();
+            users.add(userService.findById(id));
+
+        }else{
+            users = userService.getAll();
+        }
         request.setAttribute("users",users);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/showAll.jsp");
         dispatcher.forward(request,response);
