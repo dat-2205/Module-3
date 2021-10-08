@@ -9,7 +9,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "ProductServlet", value = "/product")
@@ -55,6 +54,8 @@ public class ProductServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = productService.select(id);
+        List<Category> categories = categoryService.getAll();
+        request.setAttribute("categories",categories);
         request.setAttribute("product",product);
         RequestDispatcher dispatcher = request.getRequestDispatcher("product/edit.jsp");
         try {

@@ -70,7 +70,7 @@ public class CategoryDAO implements ICategoryDAO{
     public boolean update(Category category) {
         boolean isUpdate = false;
         try {
-            String update_query = "update product set name = ?, image = ? where id = ?";
+            String update_query = "update category set name = ?, image = ? where id = ?";
             PreparedStatement statement = connection.prepareStatement(update_query);
             statement.setString(1,category.getName());
             statement.setString(2,category.getImage());
@@ -85,7 +85,7 @@ public class CategoryDAO implements ICategoryDAO{
     @Override
     public void add(Category category) {
         try {
-            String insert_into = "insert into product (name,image) values (?,?)";
+            String insert_into = "insert into category (name,image) values (?,?)";
             PreparedStatement statement = connection.prepareStatement(insert_into);
             statement.setString(1, category.getName());
             statement.setString(2, category.getImage());
@@ -93,5 +93,25 @@ public class CategoryDAO implements ICategoryDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Category> getByName(String name) {
+        List<Category> categories = new ArrayList<>();
+        try {
+            String select_query = "select * from category where name like ?";
+            PreparedStatement statement = connection.prepareStatement(select_query);
+            statement.setString(1,name);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String name2 = rs.getString("name");
+                String image = rs.getString("image");
+                Category category = new Category(id,name,image);
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
     }
 }

@@ -25,10 +25,8 @@
 <body>
 <div>
     <nav class="nav nav-pills flex-column flex-sm-row" id="menu_top">
-        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Active</a>
-        <a class="flex-sm-fill text-sm-center nav-link" href="#">Longer nav link</a>
-        <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
-        <a class="flex-sm-fill text-sm-center nav-link disabled">Disabled</a>
+        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="/product">Product Management</a>
+        <a class="flex-sm-fill text-sm-center nav-link" href="/category">Category Management</a>
     </nav>
 </div>
 <div id="table_container" class="container-fluid">
@@ -87,7 +85,15 @@
                                                 <div class="form-check form-check-inline">
                                                     <select name="category_id" id="">
                                                         <c:forEach items="${categories}" var="category">
-                                                            <option value="${category.id}">${category.name}</option>
+                                                            <c:choose>
+                                                                <c:when test="${category.id == product.category_id}">
+                                                                    <option value="${category.id}" selected>${category.name}</option>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <option value="${category.id}">${category.name}</option>
+                                                                </c:otherwise>
+                                                            </c:choose>
+
                                                         </c:forEach>
                                                     </select>
                                                 </div>

@@ -2,6 +2,7 @@ package service.category;
 
 import dao.category.CategoryDAO;
 import model.Category;
+import model.Product;
 
 import java.util.List;
 
@@ -30,5 +31,10 @@ public class CategoryService implements ICategoryService{
     @Override
     public void add(Category category) {
         categoryDAO.add(category);
+    }
+
+    public List<Category> getByName(String name) {
+        name = "%"+name+ "%";
+        return categoryDAO.getByName(name);
     }
 }
