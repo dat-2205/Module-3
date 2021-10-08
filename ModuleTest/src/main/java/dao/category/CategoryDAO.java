@@ -106,7 +106,7 @@ public class CategoryDAO implements ICategoryDAO{
                 int id = rs.getInt("id");
                 String name2 = rs.getString("name");
                 String image = rs.getString("image");
-                Category category = new Category(id,name,image);
+                Category category = new Category(id,name2,image);
                 categories.add(category);
             }
         } catch (SQLException e) {
